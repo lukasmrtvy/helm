@@ -8,6 +8,11 @@ image:
   # pullSecrets:
   #   - myRegistrKeySecretName
 
+dependeciesImage:
+  repository: busybox
+  tag: latest
+  pullPolicy: IfNotPresent
+
 nameOverride: ""
 fullnameOverride: ""
 
