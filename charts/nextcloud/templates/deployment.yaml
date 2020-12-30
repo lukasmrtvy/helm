@@ -41,6 +41,19 @@ spec:
         - name: {{ . }}
       {{- end}}
       {{- end }}
+      {{- with .Values.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      {{- if .Values.externalDatabase.enabled }}
+      - name: {{ .Chart.Name }}-dependecies
+        image: {{ .Values.dependeciesImage.repository }}:{{ .Values.dependeciesImage.tag }}"
+        imagePullPolicy: {{ .Values.dependeciesImage.pullPolicy }}
+        command: ['sh', '-c', 'until nc -z ${DB_HOST}; do echo waiting for ${DB_HOST}; sleep 2; done;']
+        env:
+        - name: DB_HOST
+          value: {{ .Values.externalDatabase.host | quote }}
+      {{- end }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
