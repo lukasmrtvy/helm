@@ -377,6 +377,7 @@ tolerations: []
 
 affinity: {}
 
+initContainers: []
 
 ## Prometheus Exporter / Metrics
 ##
