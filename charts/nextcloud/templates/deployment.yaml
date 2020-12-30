@@ -41,13 +41,13 @@ spec:
         - name: {{ . }}
       {{- end}}
       {{- end }}
-      {{- with .Values.initContainers }}
       initContainers:
+      {{- with .Values.initContainers }}
         {{- toYaml . | nindent 6 }}
       {{- end }}
       {{- if .Values.externalDatabase.enabled }}
-      - name: {{ .Chart.Name }}-dependecies
-        image: {{ .Values.dependeciesImage.repository }}:{{ .Values.dependeciesImage.tag }}"
+      - name: "{{ .Chart.Name }}-dependecies"
+        image: "{{ .Values.dependeciesImage.repository }}:{{ .Values.dependeciesImage.tag }}"
         imagePullPolicy: {{ .Values.dependeciesImage.pullPolicy }}
         command: ['sh', '-c', 'until nc -z ${DB_HOST}; do echo waiting for ${DB_HOST}; sleep 2; done;']
         env:
@@ -229,7 +229,7 @@ spec:
           timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
           successThreshold: {{ .Values.startupProbe.successThreshold }}
           failureThreshold: {{ .Values.startupProbe.failureThreshold }}
-        {{- end }}            
+        {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
@@ -312,7 +312,7 @@ spec:
           successThreshold: {{ .Values.readinessProbe.successThreshold }}
           failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
         {{- end }}
-    
+
         resources:
 {{ toYaml .Values.nginx.resources | indent 10 }}
         volumeMounts:
